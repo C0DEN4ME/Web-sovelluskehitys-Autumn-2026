@@ -1,0 +1,19 @@
+#api http test requests for VsCode REST Client
+
+###get cats
+GET http://localhost:3000/api/v1/cats
+
+###get cats by id
+GET http://localhost:3000/api/v1/cats/1
+
+###post new cat
+POST http://localhost:3000/api/v1/cats
+Content-Type: application/json
+
+{
+  "name": "Princess Donut",
+  "birthdate": "2020-01-01",
+  "Weight": 4.5,
+  "owner": "Carl",
+  "image": "https://static.wikia.nocookie.net/dungeon-crawler-carl/images/5/56/Donut_by_Mashermello.png/revision/latest?cb=20251024191920"
+}
