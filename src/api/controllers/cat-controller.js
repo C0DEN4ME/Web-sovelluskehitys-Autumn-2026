@@ -6,13 +6,13 @@ import {
   removeCat,
 } from '../models/cat-model.js';
 
-const getAllCats = (req, res) => {
+const getAllCats = async (req, res) => {
   // req.requestTime was added by the request-time middleware
-  res.json({time: req.requestTime, data: listAllCats()});
+  res.json({time: req.requestTime, data: await listAllCats()});
 };
 
-const getCatById = (req, res) => {
-  const cat = findCatById(Number(req.params.id));
+const getCatById = async (req, res) => {
+  const cat = await findCatById(Number(req.params.id));
   if (!cat) {
     return res.status(404).json({message: 'Cat not found'});
   }
