@@ -4,6 +4,7 @@ import {
   listAllCats,
   modifyCat,
   removeCat,
+  findCatByUserId
 } from '../models/cat-model.js';
 
 const getAllCats = async (req, res) => {
@@ -19,21 +20,30 @@ const getCatById = async (req, res) => {
   res.json(cat);
 };
 
-const postCat = (req, res) => {
+const getCatsByUserId = async (req, res) => {
+  const cats = await findCatByUserId(Number(req.params.user_id));
+  if (!cats || cats.length === 0) {
+    return res.status(404).json({message: 'No cats found for this user'});
+  }
+  res.json(cats);
+};
+
+const postCat = async (req, res) => {
   // multer puts the uploaded file in req.file, other fields in req.body
   if (req.file) {
     req.body.filename = req.file.filename;
   }
-  const result = addCat(req.body);
-  if (result) {
+  try {
+    const result = await addCat(req.body);
     res.status(201).json({message: 'New cat added.', result});
-  } else {
-    res.sendStatus(400);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(400).json({error: 400, message: 'Bad request.', error: error.sqlMessage}); ;
   }
 };
 
-const deleteCat = (req, res) => {
-  const result = removeCat(Number(req.params.id));
+const deleteCat = async (req, res) => {
+  const result = await removeCat(Number(req.params.id));
   if (result) {
     res.json({message: 'Cat removed!'});
   } else {
@@ -51,4 +61,4 @@ const putCat = (req, res) => {
   }
 };
 
-export {getAllCats, getCatById, postCat, deleteCat, putCat};
+export {getAllCats, getCatById, postCat, deleteCat, putCat, getCatsByUserId};

@@ -4,6 +4,7 @@ import promisePool from '../../utils/database.js';
 
 const listAllCats = async () => {
     const [rows] = await promisePool.query('SELECT * FROM wsk_cats');
+    //TODO: add owner name to the result, by joining wsk_cats and wsk_owners tables
     console.log('rows', rows);
     return rows;
 };
@@ -15,6 +16,12 @@ const findCatById = async (id) => {
         return false;
      }
      return rows[0];
+};
+
+const findCatByUserId = async (user_id) => {
+    const [rows] = await promisePool.execute('SELECT * FROM wsk_cats WHERE owner = ?', [user_id]);
+    console.log('rows', rows);
+    return rows;
 };
 
 const addCat = async (cat) => {
@@ -49,4 +56,4 @@ const removeCat = async (id) => {
      return {message: 'success'};
 };
 
-export {listAllCats, findCatById, addCat, modifyCat, removeCat};
+export {listAllCats, findCatById, findCatByUserId, addCat, modifyCat, removeCat};

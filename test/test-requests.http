@@ -16,10 +16,10 @@ Content-Type: application/json
 
 {
   "cat_name": "Princess Donut",
-  "birthdate": "2020-01-01",
   "weight": 4.5,
-  "owner": "Carl",
-  "filename": "https://static.wikia.nocookie.net/dungeon-crawler-carl/images/5/56/Donut_by_Mashermello.png/revision/latest?cb=20251024191920"
+  "owner": "38",
+  "filename": "https://static.wikia.nocookie.net/dungeon-crawler-carl/images/5/56/Donut_by_Mashermello.png/revision/latest?cb=20251024191920",
+  "birthdate": "2020-01-01"
 }
 
 ### post cat WITH IMAGE
@@ -60,3 +60,8 @@ Content-Type: application/json
 
 ### delete cat by id
 DELETE {{apiUrl}}/cats/2
+
+
+### get cats by user id
+GET {{apiUrl}}/cats/user/38
+
