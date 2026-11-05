@@ -1,19 +1,62 @@
-#api http test requests for VsCode REST Client
+# api http test requests for VS Code REST Client
+@apiUrl = http://127.0.0.1:3000/api/v1
 
-###get cats
-GET http://localhost:3000/api/v1/cats
+### get cats
+GET {{apiUrl}}/cats
 
-###get cats by id
-GET http://localhost:3000/api/v1/cats/2
+### get cat by id
+GET {{apiUrl}}/cats/2
 
-###post new cat
-POST http://localhost:3000/api/v1/cats
+### get cat by id (FAIL: not found)
+GET {{apiUrl}}/cats/98
+
+### post new cat
+POST {{apiUrl}}/cats
 Content-Type: application/json
 
 {
-  "name": "Princess Donut",
+  "cat_name": "Princess Donut",
   "birthdate": "2020-01-01",
-  "Weight": 4.5,
+  "weight": 4.5,
   "owner": "Carl",
-  "image": "https://static.wikia.nocookie.net/dungeon-crawler-carl/images/5/56/Donut_by_Mashermello.png/revision/latest?cb=20251024191920"
+  "filename": "https://static.wikia.nocookie.net/dungeon-crawler-carl/images/5/56/Donut_by_Mashermello.png/revision/latest?cb=20251024191920"
 }
+
+### post cat WITH IMAGE
+POST {{apiUrl}}/cats
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary
+Content-Disposition: form-data; name="cat_name"
+
+Princess Donut
+--MyBoundary
+Content-Disposition: form-data; name="weight"
+
+4.5
+--MyBoundary
+Content-Disposition: form-data; name="owner"
+
+Carl
+--MyBoundary
+Content-Disposition: form-data; name="birthdate"
+
+2020-01-01
+--MyBoundary
+Content-Disposition: form-data; name="image"; filename="cat.jpg"
+Content-Type: image/jpeg
+
+< ./cat.jpg
+--MyBoundary--
+
+### edit existing cat
+PUT {{apiUrl}}/cats/2
+Content-Type: application/json
+
+{
+  "weight": 6,
+  "owner": "New owner"
+}
+
+### delete cat by id
+DELETE {{apiUrl}}/cats/2

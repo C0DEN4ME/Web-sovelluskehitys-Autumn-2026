@@ -1,12 +1,26 @@
 import express from 'express';
-import {getAllCats, getCat, createCat} from '../controllers/cat-controller.js';
+import multer from 'multer';
+import {
+  deleteCat,
+  getAllCats,
+  getCatById,
+  postCat,
+  putCat,
+} from '../controllers/cat-controller.js';
+import logger from '../../middlewares/logger.js';
+
+// multer saves uploaded files to uploads/ and adds req.file to the request
+const upload = multer({dest: 'uploads/'});
 
 const catRouter = express.Router();
 
-//all api/v1/cats requests will be handled here
-catRouter.route('/').get(getAllCats).post(createCat);
+// All /api/v1/cats requests
+catRouter
+  .route('/')
+  .get(logger, getAllCats)
+  .post(upload.single('image'), postCat);
 
-//All api/v1/cats/:id requests will be handled here
-catRouter.route('/:id').get(getCat);
+// All /api/v1/cats/:id requests
+catRouter.route('/:id').get(getCatById).delete(deleteCat).put(putCat);
 
 export default catRouter;
