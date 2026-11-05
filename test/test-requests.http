@@ -1,6 +1,7 @@
 # api http test requests for VS Code REST Client
 @apiUrl = http://127.0.0.1:3000/api/v1
 
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MCwibmFtZSI6IkNhcmwiLCJ1c2VybmFtZSI6IkNhcmwtMSIsImVtYWlsIjoiY2FybEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzkzODg0MDYwLCJleHAiOjE3OTM5NzA0NjB9.rV9iDB9jiaDeahv97nYbxlcdaCeknBtLJC0dgyde8tc
 ### get cats
 GET {{apiUrl}}/cats
 
@@ -10,9 +11,23 @@ GET {{apiUrl}}/cats/2
 ### get cat by id (FAIL: not found)
 GET {{apiUrl}}/cats/98
 
-### post new cat
+### post new cat with non specific token
 POST {{apiUrl}}/cats
 Content-Type: application/json
+Authorization: Bearer <jwt-token>
+
+{
+  "cat_name": "Princess Donut",
+  "weight": 4.5,
+  "owner": "38",
+  "filename": "https://static.wikia.nocookie.net/dungeon-crawler-carl/images/5/56/Donut_by_Mashermello.png/revision/latest?cb=20251024191920",
+  "birthdate": "2020-01-01"
+}
+
+### post new cat with valid token
+POST {{apiUrl}}/cats
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
   "cat_name": "Princess Donut",
@@ -64,4 +79,40 @@ DELETE {{apiUrl}}/cats/2
 
 ### get cats by user id
 GET {{apiUrl}}/cats/user/38
+
+
+## /users
+
+### REGISTER NEW USER
+POST {{apiUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Carl",
+  "username": "Carl-1",
+  "email": "carl@example.com",
+  "password": "secret"
+
+}
+### LOGIN USER
+POST {{apiUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "Carl-1",
+  "password": "secret"
+}
+
+#### LOGIN USER (FAIL: wrong password)
+POST {{apiUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "Carl-1",
+  "password": "wrongpassword"
+}
+
+### get user by id
+GET {{apiUrl}}/users/39
+
 
