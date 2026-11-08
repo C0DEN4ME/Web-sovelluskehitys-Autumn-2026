@@ -22,6 +22,10 @@ catRouter
   .post(authenticateToken, upload.single('image'), postCat);
 
 // All /api/v1/cats/:id requests
-catRouter.route('/:id').get(getCatById).delete(deleteCat).put(putCat);
+catRouter
+  .route('/:id')
+  .get(getCatById)
+  .delete(authenticateToken, deleteCat)
+  .put(authenticateToken, putCat);
 
 export default catRouter;

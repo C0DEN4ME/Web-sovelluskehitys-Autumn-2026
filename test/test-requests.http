@@ -1,7 +1,7 @@
 # api http test requests for VS Code REST Client
 @apiUrl = http://127.0.0.1:3000/api/v1
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MCwibmFtZSI6IkNhcmwiLCJ1c2VybmFtZSI6IkNhcmwtMSIsImVtYWlsIjoiY2FybEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzkzODg0MDYwLCJleHAiOjE3OTM5NzA0NjB9.rV9iDB9jiaDeahv97nYbxlcdaCeknBtLJC0dgyde8tc
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozOCwibmFtZSI6IkNhcmwiLCJ1c2VybmFtZSI6IkNhcmwtMSIsImVtYWlsIjoiY2FybEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzk0MTY5MjY2LCJleHAiOjE3OTQyNTU2NjZ9.ZQv-yknZ_9SYs26nAQYKHfl4njZgo0WXdke54pqO1OE
 ### get cats
 GET {{apiUrl}}/cats
 
@@ -32,7 +32,6 @@ Authorization: Bearer {{token}}
 {
   "cat_name": "Princess Donut",
   "weight": 4.5,
-  "owner": "38",
   "filename": "https://static.wikia.nocookie.net/dungeon-crawler-carl/images/5/56/Donut_by_Mashermello.png/revision/latest?cb=20251024191920",
   "birthdate": "2020-01-01"
 }
@@ -115,4 +114,27 @@ Content-Type: application/json
 ### get user by id
 GET {{apiUrl}}/users/39
 
+### /auth
+GET {{apiUrl}}/auth/me
+Authorization: Bearer {{token}}
 
+### edit own cat (expect 200)
+PUT {{apiUrl}}/cats/43
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "weight": 6
+}
+
+### edit someone else's cat (expect 404)
+PUT {{apiUrl}}/cats/41
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "weight": 9
+}
+
+### delete without token (expect 401)
+DELETE {{apiUrl}}/cats/41

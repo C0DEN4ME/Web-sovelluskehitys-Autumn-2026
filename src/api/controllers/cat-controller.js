@@ -4,7 +4,7 @@ import {
   listAllCats,
   modifyCat,
   removeCat,
-  findCatByUserId
+  findCatByUserId,
 } from '../models/cat-model.js';
 
 const getAllCats = async (req, res) => {
@@ -33,6 +33,7 @@ const postCat = async (req, res) => {
   if (req.file) {
     req.body.filename = req.file.filename;
   }
+  req.body.owner = res.locals.user.user_id; // set the owner of the cat to the logged-in user
   try {
     const result = await addCat(req.body);
     res.status(201).json({message: 'New cat added.', result});
@@ -43,7 +44,7 @@ const postCat = async (req, res) => {
 };
 
 const deleteCat = async (req, res) => {
-  const result = await removeCat(Number(req.params.id));
+  const result = await removeCat(Number(req.params.id), res.locals.user);
   if (result) {
     res.json({message: 'Cat removed!'});
   } else {
@@ -53,11 +54,21 @@ const deleteCat = async (req, res) => {
 
 const putCat = async (req, res) => {
   // in real life, all input data (req.body) should be validated before using it
-  const result = await modifyCat(req.body, Number(req.params.id));
+  if (res.locals.user.role !== 'admin') {
+    delete req.body.owner; // admin cannot change the owner of the cat
+  }
+  if (Object.keys(req.body).length === 0) {
+    return res.status(400).json({message: 'Nothing to update.'});
+  }
+  const result = await modifyCat(
+    req.body,
+    Number(req.params.id),
+    res.locals.user
+  );
   if (result) {
-    res.json({message: 'Cat updated!'});
+    res.json({message: 'Cat updated!', result});
   } else {
-    res.status(404).json({error: 404, message: 'Not found.'});
+    res.status(404).json({error: 404, message: 'Not found or not authorized.'});
   }
 };
 
