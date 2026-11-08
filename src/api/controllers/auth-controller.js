@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt';
 import {findUserByUsername} from '../models/user-model.js';
 import 'dotenv/config';
 
+//TODO: Add error handling for all controller functions
+
 const postLogin = async (req, res) => {
   console.log('postLogin', req.body);
   const user = await findUserByUsername(req.body.username);

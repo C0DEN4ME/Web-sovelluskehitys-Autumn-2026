@@ -7,6 +7,8 @@ import {
 } from '../models/user-model.js';
 import bcrypt from 'bcryptjs';
 
+//TODO: Add error handling for all controller functions
+
 const postUser = async (req, res) => {
   try {
     req.body.password = bcrypt.hashSync(req.body.password, 10);
