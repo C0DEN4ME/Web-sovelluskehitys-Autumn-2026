@@ -38,7 +38,7 @@ const postCat = async (req, res) => {
     res.status(201).json({message: 'New cat added.', result});
   } catch (error) {
     console.error(error);
-    res.sendStatus(400).json({error: 400, message: 'Bad request.', error: error.sqlMessage}); ;
+    res.status(400).json({message: 'Bad request.', error: error.sqlMessage});
   }
 };
 
@@ -51,9 +51,9 @@ const deleteCat = async (req, res) => {
   }
 };
 
-const putCat = (req, res) => {
+const putCat = async (req, res) => {
   // in real life, all input data (req.body) should be validated before using it
-  const result = modifyCat(Number(req.params.id), req.body);
+  const result = await modifyCat(req.body, Number(req.params.id));
   if (result) {
     res.json({message: 'Cat updated!'});
   } else {
