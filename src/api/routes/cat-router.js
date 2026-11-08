@@ -6,6 +6,7 @@ import {
   getCatById,
   postCat,
   putCat,
+  getCatsByUserId,
 } from '../controllers/cat-controller.js';
 import logger from '../../middlewares/logger.js';
 import {authenticateToken} from '../../middlewares/authentication.js';
@@ -20,6 +21,9 @@ catRouter
   .route('/')
   .get(logger, getAllCats)
   .post(authenticateToken, upload.single('image'), postCat);
+
+// All /api/v1/cats/user/:user_id requests
+catRouter.get('/user/:user_id', getCatsByUserId);
 
 // All /api/v1/cats/:id requests
 catRouter

@@ -171,3 +171,15 @@ Authorization: Bearer {{token}}
 {
   "role": "admin"
 }
+
+### unknown route (expect 404 JSON)
+GET {{apiUrl}}/dogs
+
+### invalid JSON body (expect 400 JSON instead of an HTML page)
+POST {{apiUrl}}/users
+Content-Type: application/json
+
+{ "name": "broken",}
+
+#### get cats by user id
+GET {{apiUrl}}/cats/user/999
