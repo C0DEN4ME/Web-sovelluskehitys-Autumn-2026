@@ -3,8 +3,11 @@
 import promisePool from '../../utils/database.js';
 
 const listAllCats = async () => {
-  const [rows] = await promisePool.query('SELECT * FROM wsk_cats');
-  //TODO: add owner name to the result, by joining wsk_cats and wsk_owners tables
+  const [rows] = await promisePool.query(
+    `SELECT wsk_cats.*, wsk_users.name AS owner_name
+     FROM wsk_cats
+     JOIN wsk_users ON wsk_cats.owner = wsk_users.user_id`
+  );
   console.log('rows', rows);
   return rows;
 };

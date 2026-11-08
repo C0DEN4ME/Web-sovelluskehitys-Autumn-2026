@@ -152,7 +152,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "name": "Carl the crawler"
+  "name": "Carl-1"
 }
 ##### edit someone elses user (expect 403)
 PUT {{apiUrl}}/users/37
