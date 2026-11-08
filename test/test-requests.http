@@ -118,7 +118,7 @@ GET {{apiUrl}}/users/39
 GET {{apiUrl}}/auth/me
 Authorization: Bearer {{token}}
 
-### edit own cat (expect 200)
+### edit own cat
 PUT {{apiUrl}}/cats/43
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -127,7 +127,7 @@ Authorization: Bearer {{token}}
   "weight": 6
 }
 
-### edit someone else's cat (expect 404)
+### edit someone else's cat
 PUT {{apiUrl}}/cats/41
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -136,5 +136,38 @@ Authorization: Bearer {{token}}
   "weight": 9
 }
 
-### delete without token (expect 401)
+### delete without token
 DELETE {{apiUrl}}/cats/41
+
+### all users, no passwords (expect 200)
+GET {{apiUrl}}/users
+
+
+### one user (expect 200)
+GET {{apiUrl}}/users/38
+
+#### edit user (expect 200)
+PUT {{apiUrl}}/users/38
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Carl the crawler"
+}
+##### edit someone elses user (expect 403)
+PUT {{apiUrl}}/users/37
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Hacked"
+}
+
+### try to become admin (expect 403)
+PUT {{apiUrl}}/users/38
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "role": "admin"
+}

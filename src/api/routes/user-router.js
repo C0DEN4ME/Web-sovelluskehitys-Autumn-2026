@@ -1,10 +1,22 @@
 import express from 'express';
-import {postUser} from '../controllers/user-controller.js';
+import {
+  postUser,
+  deleteUser,
+  getUserById,
+  getUsers,
+  putUser,
+} from '../controllers/user-controller.js';
+import {authenticateToken} from '../../middlewares/authentication.js';
+
 const userRouter = express.Router();
 
-// TODO: add /api/v1/users routes (user-controller.js)
+// All /api/v1/users requests
+userRouter.route('/').post(postUser).get(getUsers);
 
-
-userRouter.route('/',).post(postUser);
+userRouter
+  .route('/:id')
+  .get(getUserById)
+  .put(authenticateToken, putUser)
+  .delete(authenticateToken, deleteUser);
 
 export default userRouter;
