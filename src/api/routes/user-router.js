@@ -16,9 +16,10 @@ const userRouter = express.Router();
 userRouter
   .route('/')
   .post(
-    body('name').trim().isAlphanumeric().isLength({min: 4, max: 20}),
+    body('name').trim().isLength({min: 4, max: 100}),
+    body('username').trim().isLength({min: 3, max: 20}).isAlphanumeric(),
     body('email').trim().isEmail(),
-    body('password').trim().isLength({min: 6}),
+    body('password').isLength({min: 6}),
     validationErrors,
     postUser
   )

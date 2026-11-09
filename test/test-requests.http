@@ -83,12 +83,13 @@ POST {{apiUrl}}/users
 Content-Type: application/json
 
 {
-  "name": "Carl",
-  "username": "Carl-1",
-  "email": "carl@example.com",
+  "name": "Carl The Crawler",
+  "username": "Carl1",
+  "email": "carl1@example.com",
   "password": "secret"
 
 }
+
 
 ### REGISTER NEW USER with invalid fields (FAIL: validation error)
 POST {{apiUrl}}/users
@@ -96,7 +97,7 @@ Content-Type: application/json
 
 {
   "name": "#€#",
-  "username": "Carl-1",
+  "username": "Carl-2",
   "email": "carl.example.com",
   "password": "se"
 
