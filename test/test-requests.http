@@ -1,7 +1,7 @@
 # api http test requests for VS Code REST Client
 @apiUrl = http://127.0.0.1:3000/api/v1
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozOCwibmFtZSI6IkNhcmwiLCJ1c2VybmFtZSI6IkNhcmwtMSIsImVtYWlsIjoiY2FybEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzk0MTY5MjY2LCJleHAiOjE3OTQyNTU2NjZ9.ZQv-yknZ_9SYs26nAQYKHfl4njZgo0WXdke54pqO1OE
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0MCwibmFtZSI6IkNhcmwiLCJ1c2VybmFtZSI6IkNhcmwtMSIsImVtYWlsIjoiY2FybEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzk0MjExODE2LCJleHAiOjE3OTQyOTgyMTZ9.NNt-mEZ8FnXFM8Qnf-r2ADaxRdZxpdThzYrB06uZ7y8
 ### get cats
 GET {{apiUrl}}/cats
 

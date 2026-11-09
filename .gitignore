@@ -10,3 +10,6 @@ uploads/*
 !uploads/.gitkeep
 
 *database
+
+test/test-requests.http/@token
+test/test-requests.http/@apiUrl
