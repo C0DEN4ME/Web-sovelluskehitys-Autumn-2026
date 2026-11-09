@@ -95,15 +95,15 @@ Content-Type: application/json
 
 }
 
-### REGISTER NEW USER with invalid name (FAIL: validation error)
+### REGISTER NEW USER with invalid fields (FAIL: validation error)
 POST {{apiUrl}}/users
 Content-Type: application/json
 
 {
   "name": "#€#",
   "username": "Carl-1",
-  "email": "carl@example.com",
-  "password": "secret"
+  "email": "carl.example.com",
+  "password": "se"
 
 }
 
@@ -192,3 +192,15 @@ GET {{apiUrl}}/error
 
 ### test not found (expect 404)
 GET {{apiUrl}}/nonexistent-endpoint
+
+### post new cat with valid token but with invalid fields (expect 400)
+POST {{apiUrl}}/cats
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "cat_name": "Pr",
+  "weight": 4.5,
+  "filename": './donut.png',
+  "birthdate": "2.Marraskuuta"
+}

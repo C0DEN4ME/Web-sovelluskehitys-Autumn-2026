@@ -8,6 +8,7 @@ import {
 } from '../controllers/user-controller.js';
 import {authenticateToken} from '../../middlewares/authentication.js';
 import {body} from 'express-validator';
+import {validationErrors} from '../../middlewares/error-handlers.js';
 
 const userRouter = express.Router();
 
@@ -15,9 +16,10 @@ const userRouter = express.Router();
 userRouter
   .route('/')
   .post(
-    body('name').isAlphanumeric().isLength({min: 4, max: 20}),
-    body('email').isEmail(),
-    body('password').isLength({min: 6}),
+    body('name').trim().isAlphanumeric().isLength({min: 4, max: 20}),
+    body('email').trim().isEmail(),
+    body('password').trim().isLength({min: 6}),
+    validationErrors,
     postUser
   )
   .get(authenticateToken, getUsers);
