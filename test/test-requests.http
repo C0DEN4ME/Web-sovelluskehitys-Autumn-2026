@@ -1,7 +1,7 @@
 # api http test requests for VS Code REST Client
 @apiUrl = http://127.0.0.1:3000/api/v1
 
-@token = {{$dotenv.TOKEN}}
+@token = {{$dotenv TOKEN}}
 GET {{apiUrl}}/cats
 
 ### get cat by id
