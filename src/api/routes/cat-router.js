@@ -9,7 +9,8 @@ import {
 } from '../controllers/cat-controller.js';
 import logger from '../../middlewares/logger.js';
 import {authenticateToken} from '../../middlewares/authentication.js';
-
+import {body} from 'express-validator/lib/body.js';
+import {validationErrors} from '../../middlewares/error-handlers.js';
 // multer saves uploaded files to uploads/ and adds req.file to the request
 const upload = multer({dest: 'uploads/'});
 
@@ -19,7 +20,16 @@ const catRouter = express.Router();
 catRouter
   .route('/')
   .get(logger, getAllCats)
-  .post(authenticateToken, upload.single('image'), postCat);
+  .post(
+    authenticateToken,
+    body('cat_name').isString().isLength({min: 1, max: 100}),
+    body('weight').isNumeric().isLength({min: 1, max: 100}),
+    body('owner').isInt().isLength({min: 1, max: 100}),
+    body('birthdate').isDate(),
+    upload.single('image'),
+    validationErrors,
+    postCat
+  );
 
 // All /api/v1/cats/:id requests
 catRouter

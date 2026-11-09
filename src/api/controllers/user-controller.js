@@ -7,14 +7,13 @@ import {
 } from '../models/user-model.js';
 import bcrypt from 'bcryptjs';
 
-const postUser = async (req, res) => {
+const postUser = async (req, res, next) => {
   try {
     req.body.password = bcrypt.hashSync(req.body.password, 10);
     const result = await addUser(req.body);
     res.status(201).json({message: 'New user added.', result});
   } catch (error) {
-    console.error(error);
-    res.status(400).json({message: 'Bad request.', error: error.sqlMessage});
+    next(error); // forward error to error handler
   }
 };
 
@@ -26,10 +25,10 @@ const getUsers = async (req, res) => {
   res.json(await listAllUsers());
 };
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
   const user = await findUserById(Number(req.params.id));
   if (!user) {
-    return res.status(404).json({message: 'User not found'});
+    next(new Error('User not found'));
   }
   res.json(user);
 };

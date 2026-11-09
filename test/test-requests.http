@@ -39,6 +39,7 @@ Authorization: Bearer {{token}}
 ### post cat WITH IMAGE
 POST {{apiUrl}}/cats
 Content-Type: multipart/form-data; boundary=MyBoundary
+Authorization: Bearer {{token}}
 
 --MyBoundary
 Content-Disposition: form-data; name="cat_name"
@@ -93,6 +94,19 @@ Content-Type: application/json
   "password": "secret"
 
 }
+
+### REGISTER NEW USER with invalid name (FAIL: validation error)
+POST {{apiUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "#€#",
+  "username": "Carl-1",
+  "email": "carl@example.com",
+  "password": "secret"
+
+}
+
 ### LOGIN USER
 POST {{apiUrl}}/auth/login
 Content-Type: application/json
@@ -171,3 +185,10 @@ Authorization: Bearer {{token}}
 {
   "role": "admin"
 }
+
+### test error handling (expect 500)
+GET {{apiUrl}}/error
+
+
+### test not found (expect 404)
+GET {{apiUrl}}/nonexistent-endpoint
