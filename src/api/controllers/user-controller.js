@@ -9,14 +9,15 @@ import bcrypt from 'bcryptjs';
 
 //TODO: Add error handling for all controller functions
 
-const postUser = async (req, res) => {
+const postUser = async (req, res, next) => {
   try {
     req.body.password = bcrypt.hashSync(req.body.password, 10);
     const result = await addUser(req.body);
     res.status(201).json({message: 'New user added.', result});
   } catch (error) {
-    console.error(error);
-    res.status(400).json({message: 'Bad request.', error: error.sqlMessage});
+    // e.g. duplicate username: the client's fault, so 400 instead of 500
+    error.status = 400;
+    next(error);
   }
 };
 
@@ -28,10 +29,12 @@ const getUsers = async (req, res) => {
   res.json(await listAllUsers());
 };
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
   const user = await findUserById(Number(req.params.id));
   if (!user) {
-    return res.status(404).json({message: 'User not found'});
+    const error = new Error('User not found');
+    error.status = 404;
+    return next(error);
   }
   res.json(user);
 };

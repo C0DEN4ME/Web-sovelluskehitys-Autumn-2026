@@ -3,6 +3,8 @@ node_modules/
 .idea
 .DS_Store
 .env
+.package-lock.json
+/test/.env
 
 # ignore content of uploads folder
 uploads/*
@@ -10,3 +12,4 @@ uploads/*
 !uploads/.gitkeep
 
 *database
+

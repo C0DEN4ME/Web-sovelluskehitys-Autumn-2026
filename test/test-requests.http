@@ -1,8 +1,7 @@
 # api http test requests for VS Code REST Client
 @apiUrl = http://127.0.0.1:3000/api/v1
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozOCwibmFtZSI6IkNhcmwiLCJ1c2VybmFtZSI6IkNhcmwtMSIsImVtYWlsIjoiY2FybEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzk0MTY5MjY2LCJleHAiOjE3OTQyNTU2NjZ9.ZQv-yknZ_9SYs26nAQYKHfl4njZgo0WXdke54pqO1OE
-### get cats
+@token = {{$dotenv.TOKEN}}
 GET {{apiUrl}}/cats
 
 ### get cat by id
@@ -39,6 +38,7 @@ Authorization: Bearer {{token}}
 ### post cat WITH IMAGE
 POST {{apiUrl}}/cats
 Content-Type: multipart/form-data; boundary=MyBoundary
+Authorization: Bearer {{token}}
 
 --MyBoundary
 Content-Disposition: form-data; name="cat_name"
@@ -93,6 +93,19 @@ Content-Type: application/json
   "password": "secret"
 
 }
+
+### REGISTER NEW USER with invalid fields (FAIL: validation error)
+POST {{apiUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "#€#",
+  "username": "Carl-1",
+  "email": "carl.example.com",
+  "password": "se"
+
+}
+
 ### LOGIN USER
 POST {{apiUrl}}/auth/login
 Content-Type: application/json
@@ -183,3 +196,21 @@ Content-Type: application/json
 
 #### get cats by user id
 GET {{apiUrl}}/cats/user/999
+### test error handling (expect 500)
+GET {{apiUrl}}/error
+
+
+### test not found (expect 404)
+GET {{apiUrl}}/nonexistent-endpoint
+
+### post new cat with valid token but with invalid fields (expect 400)
+POST {{apiUrl}}/cats
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "cat_name": "Pr",
+  "weight": 4.5,
+  "filename": "donut.png",
+  "birthdate": "2.Marraskuuta"
+}

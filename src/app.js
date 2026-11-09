@@ -2,7 +2,7 @@ import express from 'express';
 import router from './api/index.js';
 import requestTime from './middlewares/request-time.js';
 import cors from 'cors';
-import {errorHandler, notFoundHandler} from './middlewares/error-handlers.js';
+import {notFoundHandler, errorHandler} from './middlewares/error-handlers.js';
 
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -23,8 +23,8 @@ app.use(express.urlencoded({extended: true}));
 // Use the router for all API routes for /api/v1
 app.use('/api/v1', router);
 
-app.use(notFoundHandler);
-app.use(errorHandler);
+app.use(notFoundHandler); // handle 404 errors
+app.use(errorHandler); // handle other errors
 
 // Start the server by listening on the specified hostname and port.
 app.listen(port, hostname, () => {

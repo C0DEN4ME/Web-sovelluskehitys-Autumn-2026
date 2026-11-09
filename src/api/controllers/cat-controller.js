@@ -34,13 +34,22 @@ const getCatsByUserId = async (req, res, next) => {
 
 const postCat = async (req, res, next) => {
   // multer puts the uploaded file in req.file, other fields in req.body
-  if (req.file) {
-    req.body.filename = req.file.filename;
+  if (!req.file) {
+    const error = new Error('No file uploaded');
+    error.status = 400;
+    return next(error);
   }
   req.body.owner = res.locals.user.user_id; // set the owner of the cat to the logged-in user
   try {
+    req.body.filename = req.file.filename; // add the uploaded file name to the cat data
     const result = await addCat(req.body);
-    res.status(201).json({message: 'New cat added.', result});
+    if (!result) {
+      const error = new Error('Failed to add cat');
+      error.status = 400;
+      next(error);
+    } else {
+      res.status(201).json({message: 'New cat added.', result});
+    }
   } catch (error) {
     console.error('Error adding cat:', error);
     error.status = 400;
