@@ -2,13 +2,10 @@ import sharp from 'sharp';
 import multer from 'multer';
 
 const createThumbnail = async (req, res, next) => {
-  if (!req.file) {
+  if (!req.file || !req.file.mimetype.startsWith('image/')) {
     next();
     return;
   }
-  console.log(
-
-  );
   console.log(req.file.path);
   // TODO: use file path to create 160x160 png thumbnail with sharp
   await sharp(req.file.path)

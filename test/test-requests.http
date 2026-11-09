@@ -120,6 +120,14 @@ Content-Type: application/json
   "username": "Carl-1",
   "password": "wrongpassword"
 }
+#### LOGIN USER (FAIL: wrong username)
+POST {{apiUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "Carl-2",
+  "password": "secret"
+}
 
 ### get user by id
 GET {{apiUrl}}/users/39

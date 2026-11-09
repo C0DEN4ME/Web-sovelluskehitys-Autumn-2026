@@ -7,7 +7,6 @@ import {
 } from '../models/user-model.js';
 import bcrypt from 'bcryptjs';
 
-//TODO: Add error handling for all controller functions
 
 const postUser = async (req, res, next) => {
   try {
@@ -39,33 +38,51 @@ const getUserById = async (req, res, next) => {
   res.json(user);
 };
 
-const putUser = async (req, res) => {
+const putUser = async (req, res, next) => {
   if (!isSelfOrAdmin(req, res)) {
-    return res.status(403).json({message: 'Forbidden'});
+    const error = new Error(
+      'Forbidden: You can only modify your own user data'
+    );
+    error.status = 403;
+    return next(error);
   }
   if (res.locals.user.role !== 'admin') {
-    delete req.body.role; // non-admin users cannot change their role
+    delete req.body?.role; // non-admin users cannot change their role
   }
-  delete req.body.user_id; // user_id should never be changed
-  if (req.body.password) {
+  delete req.body?.user_id; // user_id should never be changed
+  if (req.body?.password) {
     req.body.password = bcrypt.hashSync(req.body.password, 10);
   }
-  if (Object.keys(req.body).length === 0) {
-    return res.status(400).json({message: 'No data to update'});
+  if (Object.keys(req.body ?? {}).length === 0) {
+    const error = new Error('No valid fields provided for update');
+    error.status = 400;
+    return next(error);
   }
   const result = await modifyUser(req.body, Number(req.params.id));
   if (!result) {
-    return res.status(404).json({message: 'User not found'});
+    const error = new Error(
+      "User not found or you don't have permission to modify this user"
+    );
+    error.status = 404;
+    return next(error);
   }
   res.json({message: 'User updated.', result});
 };
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
   if (!isSelfOrAdmin(req, res)) {
-    return res.status(403).json({message: 'Forbidden'});
+    const error = new Error(
+      'Forbidden: You can only delete your own user account'
+    );
+    error.status = 403;
+    return next(error);
   }
   const result = await removeUser(Number(req.params.id));
   if (!result) {
-    return res.status(404).json({message: 'User not found'});
+    const error = new Error(
+      "User not found or you don't have permission to delete this user"
+    );
+    error.status = 404;
+    return next(error);
   }
   res.json({message: 'User deleted.', result});
 };

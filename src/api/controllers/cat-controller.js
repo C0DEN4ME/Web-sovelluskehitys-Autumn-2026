@@ -71,9 +71,10 @@ const deleteCat = async (req, res, next) => {
 const putCat = async (req, res, next) => {
   // in real life, all input data (req.body) should be validated before using it
   if (res.locals.user.role !== 'admin') {
-    delete req.body.owner; // only admins can change the owner of a cat
+    delete req.body?.owner; // only admins can change the owner of a cat and if the user is not an admin, remove the owner field from the request body to prevent unauthorized changes
   }
-  if (Object.keys(req.body).length === 0) {
+  if (Object.keys(req.body ?? {}).length === 0) {
+    // if no data provided for update or if req.body is empty, return an error
     const error = new Error('No data provided for update.');
     error.status = 400;
     return next(error);

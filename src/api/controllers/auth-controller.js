@@ -3,20 +3,20 @@ import bcrypt from 'bcrypt';
 import {findUserByUsername} from '../models/user-model.js';
 import 'dotenv/config';
 
-//TODO: Add error handling for all controller functions
 
-const postLogin = async (req, res) => {
-  console.log('postLogin', req.body);
+const postLogin = async (req, res, next) => {
   const user = await findUserByUsername(req.body.username);
   if (!user) {
-    res.sendStatus(401);
-    return;
+    const error = new Error('invalid username or password');
+    error.status = 401;
+    return next(error);
   }
 
   const passwordMatch = await bcrypt.compare(req.body.password, user.password);
   if (!passwordMatch) {
-    res.sendStatus(401);
-    return;
+    const error = new Error('invalid username or password');
+    error.status = 401;
+    return next(error);
   }
 
   const userWithNoPassword = {

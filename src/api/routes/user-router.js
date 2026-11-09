@@ -28,7 +28,19 @@ userRouter
 userRouter
   .route('/:id')
   .get(getUserById)
-  .put(authenticateToken, putUser)
+  .put(
+    authenticateToken,
+    body('name').optional().trim().isLength({min: 4, max: 100}),
+    body('username')
+      .optional()
+      .trim()
+      .isLength({min: 3, max: 20})
+      .isAlphanumeric(),
+    body('email').optional().trim().isEmail(),
+    body('password').optional().isLength({min: 6}),
+    validationErrors,
+    putUser
+  )
   .delete(authenticateToken, deleteUser);
 
 export default userRouter;
