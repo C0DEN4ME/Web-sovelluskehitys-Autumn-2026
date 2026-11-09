@@ -1,5 +1,5 @@
 import express from 'express';
-import multer from 'multer';
+import {upload, createThumbnail} from '../../middlewares/upload.js';
 import {
   deleteCat,
   getAllCats,
@@ -12,8 +12,6 @@ import logger from '../../middlewares/logger.js';
 import {authenticateToken} from '../../middlewares/authentication.js';
 import {body} from 'express-validator';
 import {validationErrors} from '../../middlewares/error-handlers.js';
-// multer saves uploaded files to uploads/ and adds req.file to the request
-const upload = multer({dest: 'uploads/'});
 
 const catRouter = express.Router();
 
@@ -24,6 +22,7 @@ catRouter
   .post(
     authenticateToken,
     upload.single('image'), // multer middleware to handle single file upload with field name 'image'
+    createThumbnail, // middleware to create thumbnail after file upload
     body('cat_name').trim().isLength({min: 3, max: 50}),
     body('weight').isFloat({min: 0.1, max: 100}),
     body('birthdate').isDate(),

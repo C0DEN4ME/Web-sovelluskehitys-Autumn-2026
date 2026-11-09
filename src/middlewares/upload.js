@@ -7,14 +7,14 @@ const createThumbnail = async (req, res, next) => {
     return;
   }
   console.log(
-    'Tässä välissä älä tee muuta kuin tallenna thumbnail ja sitten next (async / await)'
+
   );
   console.log(req.file.path);
   // TODO: use file path to create 160x160 png thumbnail with sharp
   await sharp(req.file.path)
     .resize(160, 160)
     .png()
-    .toFile(`uploads/thumbnail_${req.file.filename}`);
+    .toFile(`${req.file.path}_thumb`);
 
   next();
 };
