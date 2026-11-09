@@ -23,13 +23,11 @@ catRouter
   .get(logger, getAllCats)
   .post(
     authenticateToken,
-    body('cat_name').trim().isString().isLength({min: 3, max: 50}),
-    body('weight').isNumeric().isLength({min: 1, max: 100}),
-    body('filename').isString().isLength({min: 1, max: 255}),
-    body('owner').isInt().isLength({min: 1, max: 100}),
+    upload.single('image'), // multer middleware to handle single file upload with field name 'image'
+    body('cat_name').trim().isLength({min: 3, max: 50}),
+    body('weight').isFloat({min: 0.1, max: 100}),
     body('birthdate').isDate(),
-    upload.single('image'),
-    validationErrors,
+    validationErrors, // middleware to check for validation errors
     postCat
   );
 

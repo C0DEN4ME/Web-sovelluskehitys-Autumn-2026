@@ -49,10 +49,6 @@ Content-Disposition: form-data; name="weight"
 
 4.5
 --MyBoundary
-Content-Disposition: form-data; name="owner"
-
-Carl
---MyBoundary
 Content-Disposition: form-data; name="birthdate"
 
 2020-01-01
