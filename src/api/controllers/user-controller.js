@@ -5,7 +5,7 @@ import {
   modifyUser,
   removeUser,
 } from '../models/user-model.js';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import {matchedData} from 'express-validator'; // import matchedData to extract validated data from the request
 
 const postUser = async (req, res, next) => {

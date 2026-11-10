@@ -23,7 +23,7 @@ userRouter
     validationErrors,
     postUser
   )
-  .get(authenticateToken, getUsers);
+  .get(getUsers);
 
 userRouter
   .route('/:id')
