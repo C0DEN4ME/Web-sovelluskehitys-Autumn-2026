@@ -181,7 +181,7 @@ Authorization: Bearer {{token}}
   "name": "Hacked"
 }
 
-### try to become admin (expect 403)
+### try to become admin (expect 400)
 PUT {{apiUrl}}/users/38
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -201,7 +201,7 @@ Content-Type: application/json
 
 #### get cats by user id
 GET {{apiUrl}}/cats/user/999
-### test error handling (expect 500)
+### test error handling (expect 404)
 GET {{apiUrl}}/error
 
 
