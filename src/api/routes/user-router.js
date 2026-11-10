@@ -38,6 +38,7 @@ userRouter
       .isAlphanumeric(),
     body('email').optional().trim().isEmail(),
     body('password').optional().isLength({min: 6}),
+    body('role').optional().isIn(['user', 'admin']),
     validationErrors,
     putUser
   )

@@ -302,3 +302,33 @@ Authorization: Bearer {{token}}
   "weight": 5,
   "filename": "hacked.png"
 }
+
+
+###edit user with unknown field (expect 400)
+PUT {{apiUrl}}/users/38
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "foo": "bar"
+}
+
+###edit user with unknown field (expect 400)
+PUT {{apiUrl}}/users/38
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "role": "superuser"
+}
+
+###edit user with unknown field (expect 400)
+PUT {{apiUrl}}/users/38
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Carl The Second"
+}
+
+

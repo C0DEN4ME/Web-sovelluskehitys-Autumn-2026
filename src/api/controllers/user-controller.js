@@ -6,6 +6,7 @@ import {
   removeUser,
 } from '../models/user-model.js';
 import bcrypt from 'bcryptjs';
+import {matchedData} from 'express-validator'; // import matchedData to extract validated data from the request
 
 const postUser = async (req, res, next) => {
   try {
@@ -38,6 +39,8 @@ const getUserById = async (req, res, next) => {
 };
 
 const putUser = async (req, res, next) => {
+  const data = matchedData(req, {locations: ['body']}); // get only the validated data from the request body
+
   if (!isSelfOrAdmin(req, res)) {
     const error = new Error(
       'Forbidden: You can only modify your own user data'
@@ -46,18 +49,17 @@ const putUser = async (req, res, next) => {
     return next(error);
   }
   if (res.locals.user.role !== 'admin') {
-    delete req.body?.role; // non-admin users cannot change their role
+    delete data.role; // non-admin users cannot change their role
   }
-  delete req.body?.user_id; // user_id should never be changed
-  if (req.body?.password) {
-    req.body.password = bcrypt.hashSync(req.body.password, 10);
+  if (data.password) {
+    data.password = bcrypt.hashSync(data.password, 10);
   }
-  if (Object.keys(req.body ?? {}).length === 0) {
+  if (Object.keys(data).length === 0) {
     const error = new Error('No valid fields provided for update');
     error.status = 400;
     return next(error);
   }
-  const result = await modifyUser(req.body, Number(req.params.id));
+  const result = await modifyUser(data, Number(req.params.id));
   if (!result) {
     const error = new Error(
       "User not found or you don't have permission to modify this user"
