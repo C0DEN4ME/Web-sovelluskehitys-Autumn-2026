@@ -262,3 +262,43 @@ Content-Type: image/png
 
 < ../package.json
 --MyBoundary--
+
+
+### edit cat with unknown field (expect 400)
+PUT {{apiUrl}}/cats/43
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "foo": "bar"
+}
+
+### edit cat, unknown field is ignored (expect 200)
+PUT {{apiUrl}}/cats/43
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "weight": 5,
+  "filename": "hacked.png"
+}
+
+
+### edit cat with unknown field (expect 400)
+PUT {{apiUrl}}/cats/43
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "foo": "bar"
+}
+
+### edit cat, unknown field is ignored (expect 200)
+PUT {{apiUrl}}/cats/43
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "weight": 5,
+  "filename": "hacked.png"
+}

@@ -6,6 +6,7 @@ import {
   removeCat,
   findCatByUserId,
 } from '../models/cat-model.js';
+import {matchedData} from 'express-validator'; // import matchedData to extract validated data from the request
 
 const getAllCats = async (req, res) => {
   // req.requestTime was added by the request-time middleware
@@ -69,21 +70,17 @@ const deleteCat = async (req, res, next) => {
 };
 
 const putCat = async (req, res, next) => {
-  // in real life, all input data (req.body) should be validated before using it
+  const data = matchedData(req, {locations: ['body']}); // get only the validated data from the request body.
   if (res.locals.user.role !== 'admin') {
-    delete req.body?.owner; // only admins can change the owner of a cat and if the user is not an admin, remove the owner field from the request body to prevent unauthorized changes
+    delete data.owner; // only admins can change the owner of a cat and if the user is not an admin, remove the owner field from the request body to prevent unauthorized changes
   }
-  if (Object.keys(req.body ?? {}).length === 0) {
-    // if no data provided for update or if req.body is empty, return an error
+  if (Object.keys(data).length === 0) {
+    // if no data provided for update, return an error
     const error = new Error('No data provided for update.');
     error.status = 400;
     return next(error);
   }
-  const result = await modifyCat(
-    req.body,
-    Number(req.params.id),
-    res.locals.user
-  );
+  const result = await modifyCat(data, Number(req.params.id), res.locals.user);
   if (result) {
     res.json({message: 'Cat updated!', result});
   } else {

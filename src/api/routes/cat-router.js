@@ -43,6 +43,7 @@ catRouter
     body('cat_name').optional().trim().isLength({min: 3, max: 50}),
     body('weight').optional().isFloat({min: 0.1, max: 100}),
     body('birthdate').optional().isDate(),
+    body('owner').optional().isInt(),
     validationErrors,
     putCat
   );

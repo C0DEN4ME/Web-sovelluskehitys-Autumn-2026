@@ -13,7 +13,7 @@ const createThumbnail = async (req, res, next) => {
       .resize(160, 160)
       .png()
       .toFile(`${req.file.path}_thumb`);
-  } catch  {
+  } catch {
     const newError = new Error('Failed to create thumbnail');
     newError.status = 400;
     next(newError);

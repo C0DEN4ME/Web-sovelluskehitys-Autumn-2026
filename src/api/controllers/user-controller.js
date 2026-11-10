@@ -7,7 +7,6 @@ import {
 } from '../models/user-model.js';
 import bcrypt from 'bcryptjs';
 
-
 const postUser = async (req, res, next) => {
   try {
     req.body.password = bcrypt.hashSync(req.body.password, 10);
