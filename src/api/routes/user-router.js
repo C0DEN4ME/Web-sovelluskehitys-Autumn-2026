@@ -7,7 +7,7 @@ import {
   putUser,
 } from '../controllers/user-controller.js';
 import {authenticateToken} from '../../middlewares/authentication.js';
-import {body} from 'express-validator';
+import {body, param} from 'express-validator';
 import {validationErrors} from '../../middlewares/error-handlers.js';
 
 const userRouter = express.Router();
@@ -27,9 +27,10 @@ userRouter
 
 userRouter
   .route('/:id')
-  .get(getUserById)
+  .get(param('id').isInt(), validationErrors, getUserById)
   .put(
     authenticateToken,
+    param('id').isInt(),
     body('name').optional().trim().isLength({min: 4, max: 100}),
     body('username')
       .optional()
@@ -42,6 +43,6 @@ userRouter
     validationErrors,
     putUser
   )
-  .delete(authenticateToken, deleteUser);
+  .delete(authenticateToken, param('id').isInt(),validationErrors, deleteUser);
 
 export default userRouter;

@@ -332,3 +332,11 @@ Authorization: Bearer {{token}}
 }
 
 
+### cat id not a number (expect 400)
+GET {{apiUrl}}/cats/abc
+
+### user id not a number (expect 400)
+GET {{apiUrl}}/users/abc
+
+### cats by user, id not a number (expect 400)
+GET {{apiUrl}}/cats/user/abc

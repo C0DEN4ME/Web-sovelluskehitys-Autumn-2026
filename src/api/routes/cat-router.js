@@ -10,7 +10,7 @@ import {
 } from '../controllers/cat-controller.js';
 import logger from '../../middlewares/logger.js';
 import {authenticateToken} from '../../middlewares/authentication.js';
-import {body} from 'express-validator';
+import {body, param} from 'express-validator';
 import {validationErrors} from '../../middlewares/error-handlers.js';
 
 const catRouter = express.Router();
@@ -31,15 +31,21 @@ catRouter
   );
 
 // All /api/v1/cats/user/:user_id requests
-catRouter.get('/user/:user_id', getCatsByUserId);
+catRouter.get(
+  '/user/:user_id',
+  param('user_id').isInt(),
+  validationErrors,
+  getCatsByUserId
+);
 
 // All /api/v1/cats/:id requests
 catRouter
   .route('/:id')
-  .get(getCatById)
-  .delete(authenticateToken, deleteCat)
+  .get(param('id').isInt(), validationErrors, getCatById)
+  .delete(authenticateToken, param('id').isInt(), validationErrors, deleteCat)
   .put(
     authenticateToken,
+    param('id').isInt(),
     body('cat_name').optional().trim().isLength({min: 3, max: 50}),
     body('weight').optional().isFloat({min: 0.1, max: 100}),
     body('birthdate').optional().isDate(),
