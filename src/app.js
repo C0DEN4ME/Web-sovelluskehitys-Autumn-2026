@@ -9,7 +9,8 @@ const app = express();
 app.use(cors());
 
 // serve static files (client app) from public/
-app.use(express.static('public'));
+
+app.use('/public', express.static('public')); // allow /public/ prefix for static files
 
 // middlewares run before the routes
 app.use(requestTime);
