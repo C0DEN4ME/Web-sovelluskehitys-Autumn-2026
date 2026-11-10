@@ -219,3 +219,22 @@ Authorization: Bearer {{token}}
   "filename": "donut.png",
   "birthdate": "2.Marraskuuta"
 }
+
+### login with empty body (expect 400)
+POST {{apiUrl}}/auth/login
+
+### login without username (expect 400)
+POST {{apiUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "password": "secret"
+}
+
+### login without password (expect 400)
+POST {{apiUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "Carl-1"
+} 
