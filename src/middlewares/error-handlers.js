@@ -9,6 +9,9 @@ const notFoundHandler = (req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars -- Express needs all 4 params to treat this as an error handler
 const errorHandler = (err, req, res, next) => {
+  if (err.name === 'MulterError') {
+    err.status = 400;
+  }
   res.status(err.status || 500); // default is 500 if err.status is not defined
   res.json({
     error: {

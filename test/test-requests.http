@@ -53,10 +53,10 @@ Content-Disposition: form-data; name="birthdate"
 
 2020-01-01
 --MyBoundary
-Content-Disposition: form-data; name="image"; filename="cat.jpg"
+Content-Disposition: form-data; name="image"; filename="big.jpg"
 Content-Type: image/jpeg
 
-< ./cat.jpg
+< ./big.jpg
 --MyBoundary--
 
 ### edit existing cat
@@ -237,4 +237,4 @@ Content-Type: application/json
 
 {
   "username": "Carl-1"
-} 
+}
