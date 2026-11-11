@@ -5,5 +5,5 @@ const port = 3000;
 
 // Start the server by listening on the specified hostname and port.
 app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+  console.log(`Server running at http://${hostname}:${port}/public/index.html`);
 });
