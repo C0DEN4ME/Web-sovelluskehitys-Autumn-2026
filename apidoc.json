@@ -1,0 +1,7 @@
+{
+  "name": "Cats API",
+  "version": "1.0.0",
+  "description": "REST API for cats and users",
+  "title": "Cats API Documentation",
+  "url": "http://127.0.0.1:3000/api/v1"
+}

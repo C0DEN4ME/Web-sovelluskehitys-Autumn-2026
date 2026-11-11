@@ -12,6 +12,8 @@ app.use(cors());
 
 app.use('/public', express.static('public')); // allow /public/ prefix for static files
 
+app.use('/docs', express.static('docs'));
+
 // middlewares run before the routes
 app.use(requestTime);
 // needed for reading request body in JSON format

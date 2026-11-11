@@ -5,7 +5,7 @@ node_modules/
 .env
 .package-lock.json
 /test/.env
-
+/docs
 # ignore content of uploads folder
 uploads/*
 # except one (empty) file to have the folder in version control
