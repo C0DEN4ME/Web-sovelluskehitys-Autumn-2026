@@ -1,3 +1,5 @@
+// Generated with the help of Claude Code
+
 /**
  * @api {get} /cats Get all cats
  * @apiName GetCats

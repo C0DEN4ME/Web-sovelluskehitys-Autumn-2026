@@ -1,3 +1,5 @@
+// Generated with the help of Claude Code
+
 /**
  * @api {get} /users Get all users
  * @apiName GetUsers

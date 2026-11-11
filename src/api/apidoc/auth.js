@@ -1,3 +1,5 @@
+// Generated with the help of Claude Code
+
 // Shared blocks, used with @apiUse in cat.js and user.js too.
 // All errors are returned as {"error": {"message": "...", "status": 400}}.
 
